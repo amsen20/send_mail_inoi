@@ -5,11 +5,13 @@ with open("header.txt", 'r') as f:
     header_template = f.read()
 with open("each_problem.txt", 'r') as f:
     each_problem_template = f.read()
-
+with open("footer.txt", 'r') as f:
+    footer_template = f.read()
 
 def get_mail(head, row):
     msg = [header_template.format(row[2], row[1])]
     msg += [each_problem_template.format(head[i], row[i]) for i in range(5, len(row))]
+    msg += [footer_template]
     msg = "\n".join(msg)
     return row[4], msg
 
