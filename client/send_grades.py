@@ -21,18 +21,25 @@ def send_mails():
     head = sheet.row_values(0)
 
     for row_ind in range(1, sheet.nrows):
-        row = sheet.row_values(row_ind)
-        address, message = get_mail(head, row)
-        msg = EmailMessage()
-        msg.set_content(message)
+        try:
+            row = sheet.row_values(row_ind)
+            address, message = get_mail(head, row)
+            msg = EmailMessage()
+            msg.set_content(message)
 
-        msg['Subject'] = 'نمرات آزمون فاینال تئوری دوره تابستانی المپیاد کامپیوتر سال ۹۹'
-        msg['From'] = sys.argv[2]
-        msg['To'] = address
-        print(msg)
-        s = smtplib.SMTP('localhost')
-        s.send_message(msg)
-        s.quit()
+            msg['Subject'] = 'نمرات آزمون فاینال تئوری دوره تابستانی المپیاد کامپیوتر سال ۹۹'
+            msg['From'] = sys.argv[2]
+            msg['To'] = address
+            print(msg)
+            s = smtplib.SMTP('localhost')
+            s.send_message(msg)
+            s.quit()
+        except Exception as e:
+            print("error in sending row {} which is {}!".format(row_ind, str(e)))
+            try:
+                print("error was for {} {} student!".format(row[2], row[1]))
+            except Exception as e:
+                print(str(e))
 
 
 if __name__ == '__main__':
