@@ -1,4 +1,4 @@
-import smtplib, xlrd, sys
+import smtplib, xlrd, sys, time
 from email.message import EmailMessage
 
 with open("header.txt", 'r') as f:
@@ -22,7 +22,7 @@ def send_mails():
 
     head = sheet.row_values(0)
 
-    for row_ind in range(1, sheet.nrows):
+    for row_ind in range(int(sys.argv[3]), sheet.nrows):
         try:
             row = sheet.row_values(row_ind)
             address, message = get_mail(head, row)
@@ -42,6 +42,7 @@ def send_mails():
                 print("error was for {} {} student!".format(row[2], row[1]))
             except Exception as e:
                 print(str(e))
+        time.sleep(20)
 
 
 if __name__ == '__main__':
